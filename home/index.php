@@ -52,14 +52,16 @@ require("../res/header_user.php");
 			<td><?php echo $bookgroup["starttime"]; ?></td>
 			<td><?php echo $bookgroup["endtime"]; ?></td>
 			<td><?php
-				if (in_array($bookgroup["groupid"], $orderlist)) {
+				if (!$login) {
+					echo "請先登入";
+				} else if ($login["admin"]) {
+					
+				} else if (in_array($bookgroup["groupid"], $orderlist)) {
 					echo "已訂購";
 				} else if ($bookgroup["grade"] == $login["grade"]) {
 					echo "未訂購";
-				} else if ($login) {
-					echo "不屬於你的訂購";
 				} else {
-					echo "請先登入";
+					echo "不屬於你的訂購";
 				}
 			?></td>
 			<td><?php 

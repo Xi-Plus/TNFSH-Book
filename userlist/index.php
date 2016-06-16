@@ -10,9 +10,18 @@ else if(!$login["admin"]){
 		addmsgbox("danger", "上傳失敗");
 	}
 	$listtext = file_get_contents($_FILES["file"]["tmp_name"]);
-	$listtext = explode("\r\n", $listtext);
-	$success = 0;
+	if (mb_check_encoding($listtext, "UTF-8")) {
+		addmsgbox("success", "檔案字符編碼為UTF-8");
+	} else if (mb_check_encoding($listtext, "BIG5")) {
+		addmsgbox("success", "檔案字符編碼為BIG5");
+		$listtext = iconv("BIG5", "UTF-8", $listtext);
+	} else {
+		addmsgbox("danger", "無法確認檔案字符編碼，已取消上傳");
+		$listtext = "";
+	}
+	$listtext = explode("\n", $listtext);
 	unset($listtext[count($listtext)-1]);
+	$success = 0;
 	foreach ($listtext as $temp) {
 		$temp = str_getcsv($temp);
 		if ($temp !== null && count($temp) == 4) {

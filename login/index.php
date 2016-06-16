@@ -60,7 +60,7 @@ if(checklogin()){
 <?php
 require("../res/comhead.php");
 ?>
-<title>登入-臺南一中教科書訂購系統</title>
+<title><?php echo (isset($_GET["admin"])?"管理員":"學生"); ?>登入-臺南一中教科書訂購系統</title>
 </head>
 <body Marginwidth="-1" Marginheight="-1" Topmargin="0" Leftmargin="0">
 <?php
@@ -73,7 +73,7 @@ require("../res/comhead.php");
 ?>
 <div class="row">
 	<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4">
-		<h2>登入</h2>
+		<h2><?php echo (isset($_GET["admin"])?"管理員":"學生"); ?>登入</h2>
 			<form method="post">
 				<div class="input-group">
 					<span class="input-group-addon">帳號</span>

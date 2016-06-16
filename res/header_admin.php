@@ -41,7 +41,8 @@
 					<?php
 					}else{
 					?>
-					<li><a href="../login/?admin">登入</a></li>
+					<li><a href="../login/">學生登入</a></li>
+					<li><a href="../login/?admin">管理員登入</a></li>
 					<?php
 					}
 					?>

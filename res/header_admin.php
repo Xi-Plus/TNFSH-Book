@@ -33,6 +33,12 @@
 					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
+					<li>
+						<a href="../res/guide/tnfsh-book-admin-guide.pdf" target="_blank">使用說明</a>
+					</li>
+					<li>
+						<a href="../home/">進入使用者介面</a>
+					</li>
 					<?php 
 					if($login){
 					?>
@@ -41,8 +47,7 @@
 					<?php
 					}else{
 					?>
-					<li><a href="../login/">學生登入</a></li>
-					<li><a href="../login/?admin">管理員登入</a></li>
+					<li><a href="../login/">登入</a></li>
 					<?php
 					}
 					?>

@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <?php
 require("../function/common.php");
-if($login == false)header("Location: ../login/?from=manageroom");
-else if(!$login["admin"]){
+if($login == false)header("Location: ../login/?from=adminlist");
+else if($login["grade"] != "admin"){
 	addmsgbox("danger", "你沒有權限");
 	?><script>setTimeout(function(){location="../home";}, 1000);</script><?php
 }
 else if(isset($_POST["add"])){
 	$query = new query;
-	$query->table ="adminlist";
+	$query->table ="account";
 	$query->value = array(
 		array("account", $_POST["account"]),
 		array("password", password_hash($_POST["password"], PASSWORD_DEFAULT)),
-		array("name", $_POST["name"])
+		array("name", $_POST["name"]),
+		array("grade", "admin")
 	);
 	INSERT($query);
 	addmsgbox("success", "已增加 ".$_POST["account"]." ".$_POST["name"]);
 }
 else if(isset($_POST["del"])){
 	$query = new query;
-	$query->table = "adminlist";
+	$query->table = "account";
 	$query->where = array(
 		array("account", $_POST["account"])
 	);
@@ -38,7 +39,7 @@ include_once("../res/comhead.php");
 <body Marginwidth="-1" Marginheight="-1" Topmargin="0" Leftmargin="0">
 <?php
 include_once("../res/header_admin.php");
-if($login["admin"]){
+if($login["grade"] == "admin"){
 ?>
 <div class="row">
 	<div class="col-md-1"></div>
@@ -52,17 +53,17 @@ if($login["admin"]){
 					<div class="input-group">
 						<span class="input-group-addon">帳號</span>
 						<input class="form-control" name="account" type="text" required>
-						<span class="input-group-addon glyphicon glyphicon-pencil"></span>
+						<span class="input-group-addon glyphicon glyphicon-user"></span>
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon">密碼</span>
 						<input class="form-control" name="password" type="password" required>
-						<span class="input-group-addon glyphicon glyphicon-pencil"></span>
+						<span class="input-group-addon glyphicon glyphicon-asterisk"></span>
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon">姓名</span>
 						<input class="form-control" name="name" type="text" required>
-						<span class="input-group-addon glyphicon glyphicon-pencil"></span>
+						<span class="input-group-addon glyphicon glyphicon-font"></span>
 					</div>
 					<button name="input" type="submit" class="btn btn-success">
 						<span class="glyphicon glyphicon-plus"></span>
@@ -95,9 +96,12 @@ if($login["admin"]){
 				</tr>
 				<?php
 				$query = new query;
-				$query->table = "adminlist";
+				$query->table = "account";
 				$query->order = array(
 					array("account", "ASC")
+				);
+				$query->where = array(
+					array("grade", "admin")
 				);
 				$row = SELECT($query);
 				foreach($row as $admin){

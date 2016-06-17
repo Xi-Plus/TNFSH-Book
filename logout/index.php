@@ -21,19 +21,13 @@ require("../res/comhead.php");
 <body Marginwidth="-1" Marginheight="-1" Topmargin="0" Leftmargin="0">
 <?php
 	addmsgbox("success", "已登出", false);
-	if (isset($_GET["admin"])) {
+	if ($login["grade"] == "admin") {
 		require("../res/header_admin.php");
 	} else {
 		require("../res/header_user.php");
 	}
 	require("../res/footer.php");
 ?>
-<script>setTimeout(function(){location="../<?php 
-		if (isset($_GET["admin"])) {
-			echo "admin";
-		}else{
-			echo "home";
-		}
-	?>";},3000)</script>
+<script>setTimeout(function(){location="../home/";},3000)</script>
 </body>
 </html>

@@ -24,7 +24,17 @@
 					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<?php 
+					<li>
+						<a href="../res/guide/tnfsh-book-user-guide.pdf" target="_blank">使用說明</a>
+					</li>
+					<?php
+					if ($login["grade"] == "admin") {
+					?>
+					<li>
+						<a href="../admin/">進入管理介面</a>
+					</li>
+					<?php
+					}
 					if($login){
 					?>
 					<li>
@@ -32,8 +42,7 @@
 					<?php
 					}else{
 					?>
-					<li><a href="../login/">學生登入</a></li>
-					<li><a href="../login/?admin">管理員登入</a></li>
+					<li><a href="../login/">登入</a></li>
 					<?php
 					}
 					?>

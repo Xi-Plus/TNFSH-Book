@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <?php
 require("../function/common.php");
-if($login == false)header("Location: ../login/?admin&from=userlist");
-else if(!$login["admin"]){
+if($login == false)header("Location: ../login/?from=userlist");
+else if($login["grade"] != "admin"){
 	addmsgbox("danger", "你沒有權限");
 	?><script>setTimeout(function(){location="../home";}, 1000);</script><?php
 } else if(isset($_POST["add"])){
@@ -27,7 +27,7 @@ else if(!$login["admin"]){
 		if ($temp !== null && count($temp) == 4) {
 			$success++;
 			$query = new query;
-			$query->table ="userlist";
+			$query->table ="account";
 			$query->value = array(
 				array("account", $temp[0]),
 				array("password", password_hash($temp[1], PASSWORD_DEFAULT)),
@@ -40,7 +40,7 @@ else if(!$login["admin"]){
 	addmsgbox("success", "找到".count($listtext)."行，成功".$success."行，失敗".(count($listtext)-$success)."行");
 } else if(isset($_POST["del"])){
 	$query = new query;
-	$query->table = "userlist";
+	$query->table = "account";
 	$query->where = array(
 		array("grade", $_POST["grade"])
 	);
@@ -59,7 +59,7 @@ require("../res/comhead.php");
 <body Marginwidth="-1" Marginheight="-1" Topmargin="0" Leftmargin="0">
 <?php
 require("../res/header_admin.php");
-if($login["admin"]){
+if($login["grade"] == "admin"){
 ?>
 <div class="row">
 	<div class="col-md-1"></div>
@@ -69,12 +69,12 @@ if($login["admin"]){
 			<div class="col-sm-12">
 				<form method="post" enctype="multipart/form-data">
 					<h2>新增</h2>
-					需有4欄，依序為帳戶、密碼、姓名、年級群組 <a href="example.csv">example</a>
+					需有4欄，依序為帳戶、密碼、姓名、年級群組 (年級群組為admin視為管理員) <a href="example.csv">範例下載</a>
 					<input type="hidden" name="add">
 					<div class="input-group">
 						<span class="input-group-addon">資料上傳 (.csv)</span>
 						<input class="form-control" name="file" type="file" required accept=".csv">
-						<span class="input-group-addon glyphicon glyphicon-pencil"></span>
+						<span class="input-group-addon glyphicon glyphicon-open"></span>
 					</div>
 					<button name="input" type="submit" class="btn btn-success">
 						<span class="glyphicon glyphicon-plus"></span>
@@ -107,7 +107,7 @@ if($login["admin"]){
 				</tr>
 				<?php
 				$query = new query;
-				$query->table = "userlist";
+				$query->table = "account";
 				$query->column = array("COUNT(*) AS `count`", "grade");
 				$query->group = array("grade");
 				$query->order = array(
@@ -120,10 +120,18 @@ if($login["admin"]){
 					<td><?php echo $grade["grade"]; ?></td>
 					<td><?php echo $grade["count"]; ?></td>
 					<td>
+						<?php
+						if ($grade["grade"] != "admin") {
+						?>
 						<button name="input" type="button" class="btn btn-danger" onClick="checkdeluser('<?php echo $grade["grade"]; ?>');" >
 						<span class="glyphicon glyphicon-trash"></span>
 						刪除 
 						</button>
+						<?php 
+						} else {
+							echo '<a href="../adminlist/">管理員請點此刪除</a>';
+						}
+						?>
 					</td>
 				</tr>
 				<?php

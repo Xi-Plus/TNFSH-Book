@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <?php
 require("../function/common.php");
-if($login == false)header("Location: ../login/?admin&from=bookgroup");
-else if(!$login["admin"]){
+if($login == false)header("Location: ../login/?from=bookgroup");
+else if($login["grade"] != "admin"){
 	addmsgbox("danger", "你沒有權限");
-	?><script>setTimeout(function(){location="../home";}, 1000);</script><?php
+	?><script>setTimeout(function(){location="../home/";}, 1000);</script><?php
 } else if(isset($_POST["add"])){
 	$query = new query;
 	$query->table ="bookgroup";
@@ -37,7 +37,7 @@ require("../res/comhead.php");
 <body Marginwidth="-1" Marginheight="-1" Topmargin="0" Leftmargin="0">
 <?php
 require("../res/header_admin.php");
-if($login["admin"]){
+if($login["grade"] == "admin"){
 ?>
 <div class="row">
 	<div class="col-md-1"></div>
@@ -51,22 +51,22 @@ if($login["admin"]){
 					<div class="input-group">
 						<span class="input-group-addon">名稱</span>
 						<input class="form-control" name="name" type="text" required>
-						<span class="input-group-addon glyphicon glyphicon-pencil"></span>
+						<span class="input-group-addon glyphicon glyphicon-font"></span>
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon">開始時間</span>
 						<input class="form-control" name="starttime" type="datetime-local" required>
-						<span class="input-group-addon glyphicon glyphicon-pencil"></span>
+						<span class="input-group-addon glyphicon glyphicon-calendar"></span>
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon">結束時間</span>
 						<input class="form-control" name="endtime" type="datetime-local" required>
-						<span class="input-group-addon glyphicon glyphicon-pencil"></span>
+						<span class="input-group-addon glyphicon glyphicon-calendar"></span>
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon">年級群組</span>
 						<input class="form-control" name="grade" type="text" required>
-						<span class="input-group-addon glyphicon glyphicon-pencil"></span>
+						<span class="input-group-addon glyphicon glyphicon-user"></span>
 					</div>
 					<button name="input" type="submit" class="btn btn-success">
 						<span class="glyphicon glyphicon-plus"></span>
@@ -117,11 +117,11 @@ if($login["admin"]){
 					<td><?php echo $bookgroup["grade"]; ?></td>
 					<td>
 						<button type="button" class="btn btn-success" onClick="location='../books/?id=<?php echo $bookgroup["groupid"]; ?>';" >
-						<span class="glyphicon glyphicon-pencil"></span>
+						<span class="glyphicon glyphicon-book"></span>
 						修改 
 						</button>
 						<button type="button" class="btn btn-success" onClick="location='../export/?id=<?php echo $bookgroup["groupid"]; ?>';" >
-						<span class="glyphicon glyphicon-pencil"></span>
+						<span class="glyphicon glyphicon-save"></span>
 						匯出 
 						</button>
 						<button type="button" class="btn btn-danger" onClick="checkdelgroup('<?php echo $bookgroup["groupid"]; ?>');" >

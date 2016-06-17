@@ -16,16 +16,16 @@ $query->where = array(
 );
 $group = fetchone(SELECT($query));
 if ($ok && $group === null) {
-	addmsgbox("danger","找不到ID");
+	addmsgbox("danger", "找不到ID");
 	$ok = false;
 } else if ($group["grade"] != $login["grade"]) {
-	addmsgbox("danger","不屬於你的訂購");
+	addmsgbox("danger", "不屬於你的訂購");
 	$ok = false;
 }else if (time() < strtotime($group["starttime"])) {
-	addmsgbox("danger","not yet");
+	addmsgbox("danger", "尚未達訂購時間");
 	$ok = false;
 } else if (time() > strtotime($group["endtime"])) {
-	addmsgbox("warning","timeout");
+	addmsgbox("warning", "已超過訂購時間，只允許檢視");
 	$timeout = true;
 }
 $query = new query;
@@ -164,8 +164,13 @@ if($ok){
 				if (!$timeout) {
 				?>
 				<button name="input" type="submit" class="btn btn-success">
-					<span class="glyphicon glyphicon-pencil"></span>
-					確認
+					<?php
+					if (count($orderlist) == 0) {
+						?><span class="glyphicon glyphicon-check"></span>送出新訂單<?php
+					} else {
+						?><span class="glyphicon glyphicon-edit"></span>修改訂單<?php
+					}
+					?>
 				</button>
 				</form>
 				<?php

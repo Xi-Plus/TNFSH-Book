@@ -4,7 +4,7 @@ $ok = true;
 $timeout = false;
 $groupid = $_GET["id"];
 if($login == false) header("Location: ../login/");
-else if(!$login["admin"]){
+else if($login["grade"] != "admin"){
 	exit("你沒有權限");
 }
 else if (!isset($groupid)) {
@@ -44,14 +44,14 @@ foreach ($booklist as $key => $book) {
 }
 $output.=",money\n";
 foreach ($orderlist as $order) {
-	$output. = $order["account"];
+	$output.= $order["account"];
 	$money = 0;
 	$books = json_decode($order["books"]);
 	foreach ($booklist as $key => $book) {
 		$output.=",";
 		if (in_array($book["bookid"], $books)) {
 			$output.="1";
-			$money+ = $book["money"];
+			$money+= $book["money"];
 			$booklist[$key]["count"]++;
 		}
 	}
@@ -64,6 +64,6 @@ foreach ($booklist as $key => $book) {
 $output.=",\n";
 header('Content-type:application/force-download');
 header('Content-Transfer-Encoding: UTF-8');
-header('Content-Disposition:attachment;filename = export.csv');
+header('Content-Disposition:attachment;filename='.$group['name'].' '.date("Y-m-d-H-i-s").'.csv');
 echo $output;
 ?>

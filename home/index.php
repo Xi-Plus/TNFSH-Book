@@ -22,7 +22,7 @@ require("../res/header_user.php");
 			<th>名稱</th>
 			<th>開始時間</th>
 			<th>結束時間</th>
-			<th>狀態</th>
+			<th>開放狀態</th>
 			<th>操作</th>
 		</tr>
 		<?php
@@ -52,22 +52,45 @@ require("../res/header_user.php");
 			<td><?php echo $bookgroup["starttime"]; ?></td>
 			<td><?php echo $bookgroup["endtime"]; ?></td>
 			<td><?php
+			if (time() < strtotime($bookgroup["starttime"])) {
+				echo "未開放";
+			} else if (time() > strtotime($bookgroup["endtime"])) {
+				echo "已結束";
+			} else {
+				echo "開放中";
+			}
+			?></td>
+			<td><?php
 				if (!$login) {
 					echo "請先登入";
-				} else if ($login["admin"]) {
-					
-				} else if (in_array($bookgroup["groupid"], $orderlist)) {
-					echo "已訂購";
 				} else if ($bookgroup["grade"] == $login["grade"]) {
-					echo "未訂購";
+					if (time() < strtotime($bookgroup["starttime"])) {
+					?>
+						<button type="button" class="btn btn-default disabled">
+						<span class="glyphicon glyphicon-shopping-cart"></span>
+						尚未開放 
+						</button>
+					<?php
+					} else if (in_array($bookgroup["groupid"], $orderlist)) {
+					?>
+						已訂購
+						<a href="../order/?id=<?php echo $bookgroup["groupid"] ?>" class="btn btn-info" role="button">
+						<span class="glyphicon glyphicon-shopping-cart"></span>
+						修改訂購
+						</a>
+					<?php
+					} else {
+					?>
+						未訂購
+						<a href="../order/?id=<?php echo $bookgroup["groupid"] ?>" class="btn btn-success" role="button">
+						<span class="glyphicon glyphicon-shopping-cart"></span>
+						立即訂購
+						</a>
+					<?php
+					}
 				} else {
 					echo "不屬於你的訂購";
-				}
-			?></td>
-			<td><?php 
-				if ($bookgroup["grade"] == $login["grade"]) {
-					?><a href="../order/?id=<?php echo $bookgroup["groupid"] ?>">訂購</a><?php
-				}			
+				}	
 			?></td>
 		</tr>
 		<?php

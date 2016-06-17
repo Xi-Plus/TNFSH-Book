@@ -3,8 +3,8 @@
 require("../function/common.php");
 $ok = true;
 $groupid = $_GET["id"];
-if($login == false)header("Location: ../login/?from=books");
-else if(!$login["admin"]){
+if($login == false)header("Location: ../login/?from=bookgroup");
+else if($login["grade"] != "admin"){
 	addmsgbox("danger", "你沒有權限");
 	?><script>setTimeout(function(){location="../home";},1000);</script><?php
 	$ok = false;

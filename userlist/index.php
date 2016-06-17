@@ -21,6 +21,7 @@ else if($login["grade"] != "admin"){
 	}
 	$listtext = explode("\n", $listtext);
 	unset($listtext[count($listtext)-1]);
+	set_time_limit(0);
 	$success = 0;
 	foreach ($listtext as $temp) {
 		$temp = str_getcsv($temp);
@@ -67,7 +68,7 @@ if($login["grade"] == "admin"){
 		<h2>使用者管理</h2>
 		<div class="row">
 			<div class="col-sm-12">
-				<form method="post" enctype="multipart/form-data">
+				<form method="post" enctype="multipart/form-data" onsubmit="$('#uploadbtn').button('loading');">
 					<h2>新增</h2>
 					需有4欄，依序為帳戶、密碼、姓名、年級群組 (年級群組為admin視為管理員) <a href="example.csv">範例下載</a>
 					<input type="hidden" name="add">
@@ -76,9 +77,9 @@ if($login["grade"] == "admin"){
 						<input class="form-control" name="file" type="file" required accept=".csv">
 						<span class="input-group-addon glyphicon glyphicon-open"></span>
 					</div>
-					<button name="input" type="submit" class="btn btn-success">
+					<button type="submit" class="btn btn-success" id="uploadbtn"  data-loading-text="上傳中，資料量大需較多時間，請耐心等待，勿關閉網頁">
 						<span class="glyphicon glyphicon-plus"></span>
-						新增 
+						新增
 					</button>
 				</form>
 			</div>
@@ -123,7 +124,7 @@ if($login["grade"] == "admin"){
 						<?php
 						if ($grade["grade"] != "admin") {
 						?>
-						<button name="input" type="button" class="btn btn-danger" onClick="checkdeluser('<?php echo $grade["grade"]; ?>');" >
+						<button name="input" type="button" class="btn btn-danger" onclick="checkdeluser('<?php echo $grade["grade"]; ?>');" >
 						<span class="glyphicon glyphicon-trash"></span>
 						刪除 
 						</button>

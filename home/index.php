@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <?php
 require("../function/common.php");
+insertlog($login["account"], "home", "view");
 ?>
 <html lang="zh-Hant-TW">
 <head>

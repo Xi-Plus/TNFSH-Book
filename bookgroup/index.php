@@ -5,6 +5,7 @@ if($login == false)header("Location: ../login/?from=bookgroup");
 else if($login["grade"] != "admin"){
 	addmsgbox("danger", "你沒有權限");
 	?><script>setTimeout(function(){location="../home/";}, 1000);</script><?php
+	insertlog($login["account"], "bookgroup", "access_denied");
 } else if(isset($_POST["add"])){
 	$query = new query;
 	$query->table ="bookgroup";
@@ -16,6 +17,7 @@ else if($login["grade"] != "admin"){
 	);
 	INSERT($query);
 	addmsgbox("success", "已增加 ".$_POST["name"]." ".$_POST["starttime"]."~".$_POST["endtime"]." ".$_POST["grade"]);
+	insertlog($login["account"], "bookgroup", "add", $_POST["name"]." ".$_POST["starttime"]."~".$_POST["endtime"]." ".$_POST["grade"]);
 } else if(isset($_POST["del"])){
 	$query = new query;
 	$query->table = "bookgroup";
@@ -23,7 +25,10 @@ else if($login["grade"] != "admin"){
 		array("groupid", $_POST["groupid"])
 	);
 	DELETE($query);
+	insertlog($login["account"], "bookgroup", "del", $_POST["groupid"]);
 	addmsgbox("success", "已刪除 ".$_POST["groupid"]);
+} else {
+	insertlog($login["account"], "bookgroup", "view");
 }
 ?>
 <html lang="zh-Hant-TW">

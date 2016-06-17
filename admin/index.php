@@ -5,6 +5,9 @@ if($login == false)header("Location: ../login/?from=admin");
 else if($login["grade"] != "admin"){
 	addmsgbox("danger", "你沒有權限");
 	?><script>setTimeout(function(){location="../home/";}, 1000);</script><?php
+	insertlog($login["account"], "admin", "access_denied");
+} else {
+	insertlog($login["account"], "admin", "view");
 }
 ?>
 <html lang="zh-Hant-TW">

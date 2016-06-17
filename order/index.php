@@ -8,6 +8,7 @@ if($login == false)header("Location: ../login/");
 else if (!isset($groupid)) {
 	addmsgbox("danger","沒有給ID");
 	$ok = false;
+	insertlog($login["account"], "order", "error", "no id");
 }
 $query = new query;
 $query->table ="bookgroup";
@@ -17,13 +18,16 @@ $query->where = array(
 $group = fetchone(SELECT($query));
 if ($ok && $group === null) {
 	addmsgbox("danger", "找不到ID");
+	insertlog($login["account"], "order", "error", "id not found");
 	$ok = false;
 } else if ($group["grade"] != $login["grade"]) {
 	addmsgbox("danger", "不屬於你的訂購");
 	$ok = false;
-}else if (time() < strtotime($group["starttime"])) {
+	insertlog($login["account"], "order", "error", "not grade");
+} else if (time() < strtotime($group["starttime"])) {
 	addmsgbox("danger", "尚未達訂購時間");
 	$ok = false;
+	insertlog($login["account"], "order", "error", "not yet");
 } else if (time() > strtotime($group["endtime"])) {
 	addmsgbox("warning", "已超過訂購時間，只允許檢視");
 	$timeout = true;
@@ -39,10 +43,11 @@ $orderlist = array();
 if ($temp !== null) {
 	$orderlist = json_decode($temp["books"]);
 }
-if(isset($_POST["order"])){
+if (isset($_POST["order"])) {
 	if ($timeout) {
-		addmsgbox("danger", "timeout");
-	}else {
+		addmsgbox("danger", "已超過訂購時間，不可修改");
+		insertlog($login["account"], "order", "error", "timeout(new/edit)");
+	} else {
 		$neworder = array();
 		if (isset($_POST["orderlist"])) {
 			foreach ($_POST["orderlist"] as $key => $value) {
@@ -61,6 +66,7 @@ if(isset($_POST["order"])){
 				);
 				UPDATE($query);
 				addmsgbox("success", "已成功修改訂單");
+				insertlog($login["account"], "order", "edit", json_encode($neworder));
 			} else {
 				$query = new query;
 				$query->table ="orderlist";
@@ -72,6 +78,7 @@ if(isset($_POST["order"])){
 				);
 				INSERT($query);
 				addmsgbox("success", "已完成新訂購");
+				insertlog($login["account"], "order", "new", json_encode($neworder));
 			}
 			$orderlist = $neworder;
 		} else {
@@ -84,12 +91,14 @@ if(isset($_POST["order"])){
 			DELETE($query);
 			addmsgbox("success", "已刪除訂單");
 			$orderlist = array();
+			insertlog($login["account"], "order", "del(edit)");
 		}
 	}
-}else if(isset($_POST["del"])){
+} else if(isset($_POST["del"])) {
 	if ($timeout) {
-		addmsgbox("danger", "timeout");
-	}else {
+		addmsgbox("danger", "已超過訂購時間，不可修改");
+		insertlog($login["account"], "order", "error", "timeout(del)");
+	} else {
 		$query = new query;
 		$query->table ="orderlist";
 		$query->where = array(
@@ -99,7 +108,10 @@ if(isset($_POST["order"])){
 		DELETE($query);
 		addmsgbox("success", "已刪除訂單");
 		$orderlist = array();
+		insertlog($login["account"], "order", "del");
 	}
+} else {
+	insertlog($login["account"], "books", "view", $groupid);
 }
 ?>
 <html lang="zh-Hant-TW">

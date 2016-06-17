@@ -3,6 +3,7 @@ date_default_timezone_set("Asia/Taipei");
 require("../config/config.php");
 require("../function/SQL-function/sql.php");
 require("../function/checkpermission.php");
+require("../function/insertlog.php");
 require("../function/msgbox.php");
 $login = checklogin();
 function url(){

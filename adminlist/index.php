@@ -5,8 +5,8 @@ if($login == false)header("Location: ../login/?from=adminlist");
 else if($login["grade"] != "admin"){
 	addmsgbox("danger", "你沒有權限");
 	?><script>setTimeout(function(){location="../home";}, 1000);</script><?php
-}
-else if(isset($_POST["add"])){
+	insertlog($login["account"], "adminlist", "access_denied");
+} else if(isset($_POST["add"])){
 	$query = new query;
 	$query->table ="account";
 	$query->value = array(
@@ -17,8 +17,8 @@ else if(isset($_POST["add"])){
 	);
 	INSERT($query);
 	addmsgbox("success", "已增加 ".$_POST["account"]." ".$_POST["name"]);
-}
-else if(isset($_POST["del"])){
+	insertlog($login["account"], "adminlist", "add", $_POST["account"]." ".$_POST["name"]);
+} else if(isset($_POST["del"])){
 	$query = new query;
 	$query->table = "account";
 	$query->where = array(
@@ -26,6 +26,9 @@ else if(isset($_POST["del"])){
 	);
 	DELETE($query);
 	addmsgbox("success", "已刪除 ".$_POST["account"]);
+	insertlog($login["account"], "adminlist", "del", $_POST["account"]);
+} else {
+	insertlog($login["account"], "adminlist", "view");
 }
 ?>
 <html lang="zh-Hant-TW">

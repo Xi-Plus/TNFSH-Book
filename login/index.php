@@ -6,6 +6,7 @@ if($login){
 	addmsgbox("info", "你已經登入了", false);
 	$show = false;
 	?><script>setTimeout(function(){location="../home/";}, 1000)</script><?php
+	insertlog($login["account"], "login", "error", "already");
 } else if(isset($_POST['user'])){
 	$query = new query;
 	$query->table = "account";
@@ -19,8 +20,10 @@ if($login){
 	}
 	if ($login === null) {
 		addmsgbox("danger", "無此帳號");
+		insertlog($_POST['user'], "login", "error", "account not found");
 	} else if ($config["reCAPTCHA"]["on"] && !json_decode($res->html)->success) {
 		addmsgbox("danger", "驗證碼失敗");
+		insertlog($_POST['user'], "login", "error", "reCAPTCHA");
 	} else if(password_verify($_POST['pwd'],$login["password"])){
 		$cookie = getrandommd5();
 		setcookie("TNFSH_Book", $cookie, time()+86400*7, "/");
@@ -42,8 +45,11 @@ if($login){
 				echo "home";
 			}
 		?>";}, 3000)</script><?php
+		insertlog($_POST['user'], "login", "ok");
 	} else {
+		$login = false;
 		addmsgbox("danger", "密碼錯誤");
+		insertlog($_POST['user'], "login", "error", "wrong password");
 	}
 }
 ?>

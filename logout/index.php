@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <?php
 require("../function/common.php");
-$login = false;
 $query = new query;
 $query->table = "session";
 $query->where = array(
@@ -9,6 +8,8 @@ $query->where = array(
 );
 DELETE($query);
 setcookie("TNFSH_Book", "", time(), "/");
+insertlog($login["account"], "logout", "ok");
+$login = false;
 ?>
 <html lang="zh-Hant-TW">
 <head>

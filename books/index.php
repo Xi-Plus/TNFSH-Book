@@ -8,10 +8,12 @@ else if($login["grade"] != "admin"){
 	addmsgbox("danger", "你沒有權限");
 	?><script>setTimeout(function(){location="../home";},1000);</script><?php
 	$ok = false;
+	insertlog($login["account"], "books", "access_denied");
 }
 else if (!isset($groupid)) {
 	addmsgbox("danger", "沒有給ID");
 	$ok = false;
+	insertlog($login["account"], "books", "error", "no id");
 }
 $query = new query;
 $query->table ="bookgroup";
@@ -21,6 +23,7 @@ $query->where = array(
 if ($ok&&fetchone(SELECT($query))===null) {
 	addmsgbox("danger", "找不到ID");
 	$ok = false;
+	insertlog($login["account"], "books", "error", "id not found");
 }
 else if(isset($_POST["add"])){
 	$query = new query;
@@ -31,7 +34,8 @@ else if(isset($_POST["add"])){
 		array("bookgroup",$groupid)
 	);
 	INSERT($query);
-	addmsgbox("success", "已增加 ".$_POST["name"]);
+	addmsgbox("success", "已增加 ".$_POST["name"]." ".$_POST["money"]);
+	insertlog($login["account"], "books", "add", $_POST["name"]." ".$_POST["money"]);
 }
 else if(isset($_POST["del"])){
 	$query = new query;
@@ -41,6 +45,9 @@ else if(isset($_POST["del"])){
 	);
 	DELETE($query);
 	addmsgbox("success", "已刪除 ".$_POST["bookid"]);
+	insertlog($login["account"], "books", "del", $_POST["bookid"]);
+} else {
+	insertlog($login["account"], "books", "view", $groupid);
 }
 ?>
 <html lang="zh-Hant-TW">

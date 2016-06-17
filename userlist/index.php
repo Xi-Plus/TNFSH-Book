@@ -5,9 +5,11 @@ if($login == false)header("Location: ../login/?from=userlist");
 else if($login["grade"] != "admin"){
 	addmsgbox("danger", "你沒有權限");
 	?><script>setTimeout(function(){location="../home";}, 1000);</script><?php
+	insertlog($login["account"], "userlist", "access_denied");
 } else if(isset($_POST["add"])){
 	if (!isset($_FILES["file"]) || $_FILES["file"]["error"] != 0) {
 		addmsgbox("danger", "上傳失敗");
+		insertlog($login["account"], "userlist", "error", "upload");
 	}
 	$listtext = file_get_contents($_FILES["file"]["tmp_name"]);
 	if (mb_check_encoding($listtext, "UTF-8")) {
@@ -18,6 +20,7 @@ else if($login["grade"] != "admin"){
 	} else {
 		addmsgbox("danger", "無法確認檔案字符編碼，已取消上傳");
 		$listtext = "";
+		insertlog($login["account"], "userlist", "error", "charset");
 	}
 	$listtext = explode("\n", $listtext);
 	unset($listtext[count($listtext)-1]);
@@ -25,7 +28,7 @@ else if($login["grade"] != "admin"){
 	$success = 0;
 	foreach ($listtext as $temp) {
 		$temp = str_getcsv($temp);
-		if ($temp !== null && count($temp) == 4) {
+		if ($temp !== null && count($temp) == 4 && $temp[0] != "" && $temp[3] != "") {
 			$success++;
 			$query = new query;
 			$query->table ="account";
@@ -39,6 +42,7 @@ else if($login["grade"] != "admin"){
 		}
 	}
 	addmsgbox("success", "找到".count($listtext)."行，成功".$success."行，失敗".(count($listtext)-$success)."行");
+	insertlog($login["account"], "userlist", "add", count($listtext)." ".$success." ".(count($listtext)-$success));
 } else if(isset($_POST["del"])){
 	$query = new query;
 	$query->table = "account";
@@ -47,6 +51,9 @@ else if($login["grade"] != "admin"){
 	);
 	DELETE($query);
 	addmsgbox("success", "已刪除 ".$_POST["grade"]);
+	insertlog($login["account"], "userlist", "del", $_POST["grade"]);
+} else {
+	insertlog($login["account"], "userlist", "view");
 }
 ?>
 <html lang="zh-Hant-TW">

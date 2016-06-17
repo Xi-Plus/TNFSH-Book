@@ -6,6 +6,7 @@ require("../function/common.php");
 <head>
 <?php
 include_once("../res/comhead.php");
+insertlog($login["account"], "info", "view");
 ?>
 <title>關於-臺南一中教科書訂購系統</title>
 </head>

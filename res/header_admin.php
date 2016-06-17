@@ -43,7 +43,7 @@
 					if($login){
 					?>
 					<li>
-						<a href="../logout/?admin"><?php echo $login["account"]."(".het($login["name"]).")"; ?> 登出</a></li>
+						<a href="../logout/"><?php echo $login["account"]."(".het($login["name"]).")"; ?> 登出</a></li>
 					<?php
 					}else{
 					?>

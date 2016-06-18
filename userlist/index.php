@@ -126,12 +126,17 @@ if($login["grade"] == "admin"){
 							if ($grade["grade"] != "admin") {
 							?>
 							<button name="input" type="button" class="btn btn-danger" data-toggle="modal" data-target="#delModal"  onclick="deluser('<?php echo $grade["grade"]; ?>');" >
-							<span class="glyphicon glyphicon-trash"></span>
-							刪除 
+								<span class="glyphicon glyphicon-trash"></span>
+								刪除 
 							</button>
 							<?php 
 							} else {
-								echo '<a href="../adminlist/">管理員請點此刪除</a>';
+							?>
+							<a href="../adminlist/" class="btn btn-warning" role="button">
+							<span class="glyphicon glyphicon-share-alt"></span>
+								刪除管理員
+								</a>
+							<?php
 							}
 							?>
 						</td>

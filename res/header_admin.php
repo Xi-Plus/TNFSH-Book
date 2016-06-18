@@ -20,9 +20,6 @@
 			<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
 				<ul class="nav navbar-nav">
 					<li>
-						<a href="../admin/">管理首頁</a>
-					</li>
-					<li>
 						<a href="../bookgroup/">訂購管理</a>
 					</li>
 					<li>

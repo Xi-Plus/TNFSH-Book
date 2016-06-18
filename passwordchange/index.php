@@ -52,7 +52,11 @@ if ($config["reCAPTCHA"]["on"]) {
 </head>
 <body Marginwidth="-1" Marginheight="-1" Topmargin="0" Leftmargin="0">
 <?php
+if ($login["grade"] == "admin") {
+	require("../res/header_admin.php");
+} else {
 	require("../res/header_user.php");
+}
 ?>
 <div class="row">
 	<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4">

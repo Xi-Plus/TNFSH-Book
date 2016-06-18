@@ -20,7 +20,7 @@
 			<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
 				<ul class="nav navbar-nav">
 					<li>
-						<a href="../home/">訂購列表</a>
+						<a href="../orderlist/">訂購列表</a>
 					</li>
 					<li>
 						<a href="../passwordchange/">變更密碼</a>

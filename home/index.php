@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <?php
 require("../function/common.php");
-if($login == false)header("Location: ../login/?from=admin");
-else insertlog($login["account"], "home", "view");
+insertlog($login["account"], "home", "view");
 ?>
 <html lang="zh-Hant-TW">
 <head>

@@ -92,50 +92,67 @@ if($ok){
 		<div class="row">
 			<div class="col-md-12">
 				<div class="table-responsive">
-				<script>
-					function checkdelbook(id){
-						if(!confirm('確認刪除?'))return false;
-						bookdelid.value = id;
-						bookdel.submit();
+					<table cellspacing="0" cellpadding="2" class="table table-hover table-condensed">
+					<tr>
+						<th>ID</th>
+						<th>名稱</th>
+						<th>金額</th>
+						<th>操作</th>
+					</tr>
+					<?php
+					$query = new query;
+					$query->table = "booklist";
+					$query->where = array(
+						array("bookgroup",$groupid)
+					);
+					$row = SELECT($query);
+					foreach($row as $book){
+					?>
+					<tr>
+						<td><?php echo $book["bookid"]; ?></td>
+						<td><?php echo $book["name"]; ?></td>
+						<td><?php echo $book["money"]; ?></td>
+						<td>
+							<button name="input" type="button" data-toggle="modal" data-target="#delModal"  class="btn btn-danger" onClick="delbook('<?php echo $book["bookid"]; ?>','<?php echo $book["name"]; ?>');" >
+							<span class="glyphicon glyphicon-trash"></span>
+							刪除 
+							</button>
+						</td>
+					</tr>
+					<?php
 					}
-				</script>
-				<table cellspacing="0" cellpadding="2" class="table table-hover table-condensed">
-				<div style="display:none">
-					<form method="post" id="bookdel">
-						<input name="del" type="hidden">
-						<input name="bookid" type="hidden" id="bookdelid">
-					</form>
-				</div>
-				<tr>
-					<th>ID</th>
-					<th>名稱</th>
-					<th>金額</th>
-					<th>操作</th>
-				</tr>
-				<?php
-				$query = new query;
-				$query->table = "booklist";
-				$query->where = array(
-					array("bookgroup",$groupid)
-				);
-				$row = SELECT($query);
-				foreach($row as $book){
-				?>
-				<tr>
-					<td><?php echo $book["bookid"]; ?></td>
-					<td><?php echo $book["name"]; ?></td>
-					<td><?php echo $book["money"]; ?></td>
-					<td>
-						<button name="input" type="button" class="btn btn-danger" onClick="checkdelbook('<?php echo $book["bookid"]; ?>');" >
-						<span class="glyphicon glyphicon-trash"></span>
-						刪除 
-						</button>
-					</td>
-				</tr>
-				<?php
-				}
-				?>
-				</table>
+					?>
+					</table>
+					<script>
+						function delbook(id, name){
+							bookdelid.value = id;
+							delshowname.innerHTML = name;
+						}
+					</script>
+					<div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<form method="post">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title" id="delModalLabel">刪除教科書</h4>
+								</div>
+								<div class="modal-body">
+									<input type="hidden" name="del">
+									<input type="hidden" name="bookid" id="bookdelid">
+									確認刪除 <span id="delshowname"></span>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+									<button type="submit" class="btn btn-danger">
+										<span class="glyphicon glyphicon-trash"></span>
+										刪除
+									</button>
+								</div>
+								</form>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

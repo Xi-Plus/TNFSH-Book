@@ -31,6 +31,9 @@
 					<li>
 						<a href="../adminlist/">管理員管理</a>
 					</li>
+					<li>
+						<a href="../passwordchange/">變更密碼</a>
+					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li>

@@ -22,6 +22,9 @@
 					<li>
 						<a href="../home/">訂購列表</a>
 					</li>
+					<li>
+						<a href="../passwordchange/">變更密碼</a>
+					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li>

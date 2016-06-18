@@ -94,58 +94,82 @@ if($login["grade"] == "admin"){
 		<div class="row">
 			<div class="col-md-12">
 				<div class="table-responsive">
-				<script>
-					function checkdeluser(id){
-						if(!confirm('確認刪除?'))return false;
-						userdel.value = id;
-						userdelform.submit();
-					}
-				</script>
-				<table cellspacing="0" cellpadding="2" class="table table-hover table-condensed">
-				<div style="display:none">
-					<form method="post" id="userdelform">
-						<input name="del" type="hidden">
-						<input name="grade" type="hidden" id="userdel">
-					</form>
-				</div>
-				<tr>
-					<th>年級群組</th>
-					<th>數量</th>
-					<th>操作</th>
-				</tr>
-				<?php
-				$query = new query;
-				$query->table = "account";
-				$query->column = array("COUNT(*) AS `count`", "grade");
-				$query->group = array("grade");
-				$query->order = array(
-					array("grade", "ASC")
-				);
-				$row = SELECT($query);
-				foreach($row as $grade){
-				?>
-				<tr>
-					<td><?php echo $grade["grade"]; ?></td>
-					<td><?php echo $grade["count"]; ?></td>
-					<td>
-						<?php
-						if ($grade["grade"] != "admin") {
-						?>
-						<button name="input" type="button" class="btn btn-danger" onclick="checkdeluser('<?php echo $grade["grade"]; ?>');" >
-						<span class="glyphicon glyphicon-trash"></span>
-						刪除 
-						</button>
-						<?php 
-						} else {
-							echo '<a href="../adminlist/">管理員請點此刪除</a>';
+					<script>
+						function checkdeluser(id){
+							if(!confirm('確認刪除?'))return false;
+							userdel.value = id;
+							userdelform.submit();
 						}
-						?>
-					</td>
-				</tr>
-				<?php
-				}
-				?>
-				</table>
+					</script>
+					<table cellspacing="0" cellpadding="2" class="table table-hover table-condensed">
+					<tr>
+						<th>年級群組</th>
+						<th>數量</th>
+						<th>操作</th>
+					</tr>
+					<?php
+					$query = new query;
+					$query->table = "account";
+					$query->column = array("COUNT(*) AS `count`", "grade");
+					$query->group = array("grade");
+					$query->order = array(
+						array("grade", "ASC")
+					);
+					$row = SELECT($query);
+					foreach($row as $grade){
+					?>
+					<tr>
+						<td><?php echo $grade["grade"]; ?></td>
+						<td><?php echo $grade["count"]; ?></td>
+						<td>
+							<?php
+							if ($grade["grade"] != "admin") {
+							?>
+							<button name="input" type="button" class="btn btn-danger" data-toggle="modal" data-target="#delModal"  onclick="deluser('<?php echo $grade["grade"]; ?>');" >
+							<span class="glyphicon glyphicon-trash"></span>
+							刪除 
+							</button>
+							<?php 
+							} else {
+								echo '<a href="../adminlist/">管理員請點此刪除</a>';
+							}
+							?>
+						</td>
+					</tr>
+					<?php
+					}
+					?>
+					</table>
+					<script>
+						function deluser(grade){
+							delgrade.value = grade;
+							delshowgrade.innerHTML = grade;
+						}
+					</script>
+					<div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<form method="post">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title" id="delModalLabel">刪除年級群組</h4>
+								</div>
+								<div class="modal-body">
+									<input type="hidden" name="del">
+									<input type="hidden" name="grade" id="delgrade">
+									確認刪除 <span id="delshowgrade"></span>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+									<button type="submit" class="btn btn-danger">
+										<span class="glyphicon glyphicon-trash"></span>
+										刪除
+									</button>
+								</div>
+								</form>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

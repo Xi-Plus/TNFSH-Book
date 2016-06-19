@@ -3,17 +3,18 @@
 require("../function/common.php");
 if($login == false)header("Location: ../login/?from=passwordchange");
 else if(isset($_POST['pwd'])){
-	$account = $login["account"];
-	if (isset($_POST["user"])) {
-		$account = $_POST["user"];
-	}
+	$account = $_POST["user"] ?? $login["account"];
 	$query = new query;
 	$query->table = "account";
 	$query->where = array(
 		array("account", $account)
 	);
 	$temp = fetchone(SELECT($query));
-	if ($temp === null) {
+	if ($login["account"] != $account && $login["grade"] != "admin") {
+		addmsgbox("danger", "你沒有權限修改他人的密碼");
+		insertlog($login["account"], "passwordchange", "error", $account." user edit others");
+	}
+	else if ($temp === null) {
 		addmsgbox("danger", "無此帳號");
 		insertlog($login["account"], "passwordchange", "error", $account." not found");
 	} else if($login["account"] == $account && !password_verify($_POST['oldpwd'], $temp["password"])){

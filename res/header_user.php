@@ -28,7 +28,7 @@
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li>
-						<a href="../res/guide/tnfsh-book-user-guide.pdf" target="_blank">使用說明</a>
+						<a href="../guide/">使用說明</a>
 					</li>
 					<?php
 					if ($login["grade"] == "admin") {

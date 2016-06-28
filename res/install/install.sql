@@ -56,6 +56,15 @@ CREATE TABLE `session` (
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `system` (
+  `id` varchar(255) NOT NULL,
+  `value` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `system` (`id`, `value`) VALUES
+('announcement_admin', '<h1>教科書訂購系統 管理首頁</h1>'),
+('announcement_user', '<h1>教科書訂購系統 首頁</h1>');
+
 
 ALTER TABLE `account`
   ADD UNIQUE KEY `account` (`account`);
@@ -74,6 +83,9 @@ ALTER TABLE `orderlist`
 
 ALTER TABLE `session`
   ADD UNIQUE KEY `cookie` (`cookie`);
+
+ALTER TABLE `system`
+  ADD UNIQUE KEY `id` (`id`);
 
 
 ALTER TABLE `bookgroup`

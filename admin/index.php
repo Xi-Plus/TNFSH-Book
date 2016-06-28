@@ -24,7 +24,14 @@ if ($login["grade"] == "admin") {
 ?>
 <div class="row">
 	<div class="col-md-offset-1 col-md-10">
-		<h2>教科書訂購系統 管理首頁</h2>
+		<?php
+		$query = new query;
+		$query->table = "system";
+		$query->where = array(
+			array("id", "announcement_admin")
+		);
+		echo fetchone(SELECT($query))["value"];
+		?>
 	</div>
 </div>
 <?php

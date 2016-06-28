@@ -29,6 +29,9 @@
 						<a href="../adminlist/">管理員管理</a>
 					</li>
 					<li>
+						<a href="../annc/">編輯公告</a>
+					</li>
+					<li>
 						<a href="../passwordchange/">變更密碼</a>
 					</li>
 				</ul>

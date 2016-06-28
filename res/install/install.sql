@@ -14,12 +14,6 @@ CREATE TABLE `account` (
   `grade` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `adminsession` (
-  `account` varchar(20) NOT NULL,
-  `cookie` varchar(32) NOT NULL,
-  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE `bookgroup` (
   `groupid` int(11) NOT NULL,
   `name` varchar(30) NOT NULL,
@@ -37,7 +31,7 @@ CREATE TABLE `booklist` (
 
 CREATE TABLE `log` (
   `account` varchar(20) NOT NULL,
-  `page` varchar(10) NOT NULL,
+  `page` varchar(20) NOT NULL,
   `action` varchar(20) NOT NULL,
   `detail` text NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -68,9 +62,6 @@ INSERT INTO `system` (`id`, `value`) VALUES
 
 ALTER TABLE `account`
   ADD UNIQUE KEY `account` (`account`);
-
-ALTER TABLE `adminsession`
-  ADD UNIQUE KEY `cookie` (`cookie`);
 
 ALTER TABLE `bookgroup`
   ADD PRIMARY KEY (`groupid`);

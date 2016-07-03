@@ -52,12 +52,17 @@ CREATE TABLE `session` (
 
 CREATE TABLE `system` (
   `id` varchar(255) NOT NULL,
-  `value` text NOT NULL
+  `type` varchar(20) NOT NULL,
+  `value` text NOT NULL,
+  `comment` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `system` (`id`, `value`) VALUES
-('announcement_admin', '<h1>教科書訂購系統 管理首頁</h1>'),
-('announcement_user', '<h1>教科書訂購系統 首頁</h1>');
+INSERT INTO `system` (`id`, `type`, `value`, `comment`) VALUES
+('announcement_admin', 'textarea', '<h1>教科書訂購系統 管理首頁</h1>', '管理員公告'),
+('announcement_user', 'textarea', '<h1>教科書訂購系統 首頁</h1>', '使用者公告'),
+('reCAPTCHA_secret_key', 'text', 'your_reCAPTCHA_secret_key', '驗證碼 secret key'),
+('reCAPTCHA_site_key', 'text', 'your_reCAPTCHA_site_key', '驗證碼 site key'),
+('reCAPTCHA_status', 'checkbox', '1', '開啟驗證碼');
 
 
 ALTER TABLE `account`

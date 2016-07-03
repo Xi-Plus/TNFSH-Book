@@ -2,6 +2,11 @@
 <?php
 require("../function/common.php");
 if($login == false)header("Location: ../login/?from=annc");
+else if($login["grade"] != "admin"){
+	addmsgbox("danger", "你沒有權限");
+	?><script>setTimeout(function(){location="../home";}, 1000);</script><?php
+	insertlog($login["account"], "annc", "access_denied");
+}
 $query = new query;
 $query->table = "system";
 $query->where = array(
@@ -75,6 +80,7 @@ tinymce.init({
 <body Marginwidth="-1" Marginheight="-1" Topmargin="0" Leftmargin="0">
 <?php
 require("../res/header_admin.php");
+if($login["grade"] == "admin"){
 ?>
 <div class="row">
 	<div class="col-xs-12 col-sm-offset-1 col-sm-10 col-md-offset-1 col-md-10">
@@ -96,6 +102,7 @@ require("../res/header_admin.php");
 			</button>
 		</form>
 <?php
+	}
 	include("../res/footer.php");
 ?>
 </body>

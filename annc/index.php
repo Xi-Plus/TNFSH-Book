@@ -30,6 +30,7 @@ if (isset($_POST["annc_user"])) {
 	);
 	UPDATE($query);
 	$annc_user = $_POST["annc_user"];
+	addmsgbox("success", "已修改 使用者公告");
 	insertlog($login["account"], "annc", "edit_user", $annc_user);
 } else if (isset($_POST["annc_admin"])) {
 	$query = new query;
@@ -42,6 +43,7 @@ if (isset($_POST["annc_user"])) {
 	);
 	UPDATE($query);
 	$annc_admin = $_POST["annc_admin"];
+	addmsgbox("success", "已修改 管理員公告");
 	insertlog($login["account"], "annc", "edit_admin", $annc_admin);
 } else {
 	insertlog($login["account"], "annc", "view");

@@ -17,8 +17,22 @@ require("../res/header_user.php");
 <div class="row">
 	<div class="col-md-offset-1 col-md-10">
 		<h2>使用說明</h2>
-		<a href="tnfsh-book-user-guide.pdf" target="_blank" role="button" class="btn btn-success">下載學生說明書</a>
-		<a href="tnfsh-book-admin-guide.pdf" target="_blank" role="button" class="btn btn-success">下載管理員說明書</a>
+		<?php 
+		$query = new query;
+		$query->table = "system";
+		$query->where = array(
+			array("id", "guidebook_user")
+		);
+		$guidebook_user = fetchone(SELECT($query))["value"];
+		$query = new query;
+		$query->table = "system";
+		$query->where = array(
+			array("id", "guidebook_admin")
+		);
+		$guidebook_admin = fetchone(SELECT($query))["value"];
+		?>
+		<a href="<?php echo $guidebook_user; ?>" target="_blank" role="button" class="btn btn-success">學生說明書</a>
+		<a href="<?php echo $guidebook_admin; ?>" target="_blank" role="button" class="btn btn-success">管理員說明書</a>
 	</div>
 </div>
 <?php

@@ -60,9 +60,11 @@ CREATE TABLE `system` (
 INSERT INTO `system` (`id`, `type`, `value`, `comment`) VALUES
 ('announcement_admin', 'textarea', '<h1>教科書訂購系統 管理首頁</h1>', '管理員公告'),
 ('announcement_user', 'textarea', '<h1>教科書訂購系統 首頁</h1>', '使用者公告'),
+('guidebook_admin', 'text', 'guidebook_admin.pdf', '管理員說明書連結'),
+('guidebook_user', 'text', 'guidebook_user.pdf', '使用者說明書連結'),
 ('reCAPTCHA_secret_key', 'text', 'your_reCAPTCHA_secret_key', '驗證碼 secret key'),
 ('reCAPTCHA_site_key', 'text', 'your_reCAPTCHA_site_key', '驗證碼 site key'),
-('reCAPTCHA_status', 'checkbox', '1', '開啟驗證碼');
+('reCAPTCHA_status', 'checkbox', '0', '開啟驗證碼');
 
 
 ALTER TABLE `account`
@@ -85,9 +87,9 @@ ALTER TABLE `system`
 
 
 ALTER TABLE `bookgroup`
-  MODIFY `groupid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `groupid` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `booklist`
-  MODIFY `bookid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `bookid` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -10,7 +10,7 @@
 				</button>
 				<a href="../home/" class="navbar-brand">
 					<div style="float: left;">
-						<img src="http://www.tnfsh.tn.edu.tw/ezfiles/0/1000/sys_1000_5047883_27719.png" alt="臺南第一高級中學" height="30px">
+						<img src="<?php echo $config['img']['header']; ?>" alt="臺南第一高級中學" height="30px">
 					</div>
 					<div style="float: left;">
 						&nbsp;&nbsp;<span style="font-weight: bold; font-size: px; font-family: '標楷體';">教科書訂購系統</span><br>
